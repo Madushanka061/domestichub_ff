@@ -25,11 +25,18 @@ const SideBar = () => {
   const cat = [
     {
       category: "Household",
-      items: ["Plumbing", "Gardning", "sfsd3", "4sfsdf"],
+      items: ["Gardning", "House painting", "Landscaping"],
     },
     {
-      category: "Bfdsdfds",
-      items: ["1sfds", "3sfsdfs", "sfdsd4"],
+      category: "Technicians",
+      items: [
+        "Electrician",
+        "CCTV Reparing",
+        "Plumbing",
+        "Wood works",
+        "Ion works",
+        "TV,Radio reparing",
+      ],
     },
     {
       category: "Csfdsfsd",

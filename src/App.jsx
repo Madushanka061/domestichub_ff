@@ -4,6 +4,8 @@ import "./App.css";
 // import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Home from "./components/pages/Home";
+import Signup from "./components/SignUP/Signup";
+import Login from "./components/SignUP/Login";
 
 function App() {
   useEffect(() => {
@@ -12,7 +14,9 @@ function App() {
 
   return (
     <>
-      <Home />
+      <Login />
+      {/* <Signup /> */}
+      {/* <Home /> */}
     </>
 
     //   // {/* <Router>
