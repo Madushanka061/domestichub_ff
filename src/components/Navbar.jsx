@@ -20,6 +20,7 @@ import { Box } from "@mui/system";
 import Drawercomp from "./Drawercomp";
 import MailIcon from "@mui/icons-material/Mail";
 import PersonIcon from "@mui/icons-material/Person";
+import { useNavigate } from "react-router-dom";
 
 function notificationsLabel(count) {
   if (count === 0) {
@@ -32,6 +33,7 @@ function notificationsLabel(count) {
 }
 
 function Navbar({ links }) {
+  const navigate = useNavigate();
   const theme = useTheme();
   console.log(theme);
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
@@ -45,102 +47,94 @@ function Navbar({ links }) {
     description:
       "Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica",
   };
+
   return (
     <AppBar
+      position="static"
+      elevation={0}
       sx={{
         backgroundImage:
-          "linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,121,84,1) 51%, rgba(46,161,142,1) 100%)",
+          "linear-gradient(90deg, rgba(149,157,162,1) 0%, rgba(95,100,157,1) 0%, rgba(5,4,34,1) 0%)",
+        borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
       }}
     >
-      <Toolbar>
-        {isMatch ? (
-          <>
-            <Typography sx={{ marginLeft: "left" }}>
-              <WbShadeRoundedIcon />
-            </Typography>
-            <Typography sx={{ fontSize: 12 }}>DOMESTICHUB</Typography>
-            <Drawercomp links={links} />
-          </>
+      <Toolbar sx={{ flexWrap: "wrap" }}>
+        <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
+          <WbShadeRoundedIcon />
+          DOMESTICHUB
+        </Typography>
+        <nav>
+          <Tabs
+            indicatorColor="secondary"
+            textColor="inherit"
+            value={value}
+            onChange={(e, val) => setValue(val)}
+          >
+            {links.map((link, index) => (
+              <Tab
+                key={index}
+                label={link.name}
+                onClick={() => navigate(link.route)}
+              />
+            ))}
+          </Tabs>
+        </nav>
+
+        <IconButton
+          sx={{ marginLeft: "auto" }}
+          aria-label={notificationsLabel(10)}
+        >
+          <Badge badgeContent={100} color="secondary">
+            <MailIcon color="primary" />
+          </Badge>
+        </IconButton>
+
+        {user && (
+          <Avatar sx={{ bgcolor: "black", marginLeft: 2, marginRight: 2 }}>
+            {user.img ? <img src={user.img} /> : <PersonIcon />}
+          </Avatar>
+        )}
+        {user ? (
+          <Button
+            sx={{
+              marginLeft: "auto",
+              color: "white",
+              "&:hover": { backgroundColor: "rgba(149,157,162,1)" },
+            }}
+            variant="outlined"
+            href="/"
+            onClick={() => console.log("LOGOUT")}
+          >
+            LOGOUT
+          </Button>
         ) : (
-          <Grid sx={{ placeItems: "center" }} container>
-            <Grid item xs={2}>
-              <Typography sx={{ marginLeft: 4 }}>
-                <WbShadeRoundedIcon />
-              </Typography>
-              <Typography sx={{ fontSize: 12 }}>DOMESTICHUB</Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Tabs
-                indicatorColor="secondary"
-                textColor="inherit"
-                value={value}
-                onChange={(e, val) => setValue(val)}
-              >
-                {links.map((link, index) => (
-                  <Tab key={index} label={link} />
-                ))}
-              </Tabs>
-            </Grid>
-            <Grid item xs={1} />
-            <Grid item xs={3}>
-              <Box display="flex">
-                <IconButton
-                  sx={{ marginLeft: "auto" }}
-                  aria-label={notificationsLabel(10)}
-                >
-                  <Badge badgeContent={100} color="secondary">
-                    <MailIcon />
-                  </Badge>
-                </IconButton>
+          <Button
+            sx={{
+              marginLeft: 2,
+              marginRight: 2,
+              color: "white",
+              "&:hover": { backgroundColor: "rgba(149,157,162,1)" },
+            }}
+            variant="outlined"
+            href="/login"
+            onClick={() => console.log("LOGIN")}
+          >
+            LOGIN
+          </Button>
+        )}
 
-                {user && (
-                  <Stack direction="row" spacing={2}>
-                    <Avatar sx={{ bgcolor: "black", marginLeft: 2 }}>
-                      {user.img ? <img src={user.img} /> : <PersonIcon />}
-                    </Avatar>
-                  </Stack>
-                )}
-                {user ? (
-                  <Button
-                    sx={{
-                      marginLeft: "auto",
-                      color: "blue",
-                      "&:hover": { backgroundColor: "rgba(9,121,84,1)" },
-                    }}
-                    variant="outlined"
-                    onClick={() => console.log("LOGOUT")}
-                  >
-                    LOGOUT
-                  </Button>
-                ) : (
-                  <Button
-                    sx={{
-                      marginLeft: "auto",
-                      color: "blue",
-                      "&:hover": { backgroundColor: "rgba(9,121,84,1)" },
-                    }}
-                    variant="outlined"
-                    onClick={() => console.log("LOGIN")}
-                  >
-                    LOGIN
-                  </Button>
-                )}
-
-                {user === null && (
-                  <Button
-                    sx={{
-                      marginLeft: 1,
-                      color: "blue",
-                      "&:hover": { backgroundColor: "rgba(9,121,84,1)" },
-                    }}
-                    variant="outlined"
-                  >
-                    SIGNUP
-                  </Button>
-                )}
-              </Box>
-            </Grid>
-          </Grid>
+        {user === null && (
+          <Button
+            sx={{
+              marginLeft: 2,
+              color: "white",
+              "&:hover": { backgroundColor: "rgba(149,157,162,1)" },
+              marginRight: 2,
+            }}
+            variant="outlined"
+          >
+            SIGNUP
+          </Button>
         )}
       </Toolbar>
     </AppBar>
