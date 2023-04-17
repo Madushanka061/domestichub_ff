@@ -1,19 +1,17 @@
 import React from "react";
-import Carousel from "../Carousel/Carousel";
-
-import CustomCard from "../CustomCard";
 import Navbar from "../Navbar";
+import Carousel from "../Carousel/Carousel";
+import { Box } from "@mui/material";
+import CardHcomp from "../CardHome/CardHcomp";
 
-const linksArray = ["post Job", "Services", "Contact Us"];
 function Home() {
   return (
     <>
-      <Navbar links={linksArray} />
-      {/* <Carousel /> */}
-
-      <CustomCard />
-
-      {/* <Login /> */}
+      <Box sx={{ backgroundColor: "rgba(222,228,236,1)" }}>
+        <Navbar />
+        <Carousel />
+        <CardHcomp />
+      </Box>
     </>
   );
 }

@@ -1,14 +1,13 @@
 import React from "react";
 import CustomCard from "../CustomCard";
-import Navbar from "../Navbar";
-import Sidebar from "../Sidebar";
+import { Box } from "@mui/system";
 
 function Services() {
   return (
     <>
-      <Navbar />
-      {/* <Sidebar/> */}
-      <CustomCard />
+      <Box sx={{ backgroundColor: "rgba(222,228,236,1)" }}>
+        <CustomCard />
+      </Box>
     </>
   );
 }

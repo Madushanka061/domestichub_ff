@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Avatar,
   Box,
@@ -20,8 +20,20 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Navbar from "../Navbar";
 
 function Login() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const logged = localStorage.getItem("loggedUser");
+    if (logged) {
+      navigate("/services");
+    }
+  }, []);
+
   const {
     register,
     handleSubmit,
@@ -30,6 +42,23 @@ function Login() {
 
   const onSubmit = (data) => {
     console.log(data);
+    let config = {
+      method: "post",
+      url: "http://localhost:8080/api/v1/login/login",
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+      data: data,
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+        localStorage.setItem("loggedUser", JSON.stringify(response.data));
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const theme = createTheme();
@@ -43,8 +72,10 @@ function Login() {
   };
   return (
     <ThemeProvider theme={theme}>
+      <Navbar />
       <Container component="main" maxWidth="xs">
         <CssBaseline />
+
         <Box
           sx={{
             marginTop: 8,
@@ -68,7 +99,6 @@ function Login() {
           >
             <TextField
               margin="normal"
-              required
               fullWidth
               id="email"
               label="Email Address"
@@ -85,7 +115,6 @@ function Login() {
 
             <TextField
               margin="normal"
-              required
               fullWidth
               id="password"
               label=" Password"
@@ -111,7 +140,11 @@ function Login() {
                 minLength: 8,
               })}
             />
-            {errors.password && <p>Password Should contain 8-20 charactors</p>}
+            {errors.password && (
+              <p style={{ fontSize: 13, padding: 0, color: "red" }}>
+                Password Should contain 8-20 charactors
+              </p>
+            )}
 
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -127,7 +160,7 @@ function Login() {
             </Button>
             <Grid container>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/sign-up" variant="body2">
                   {"Don't have an account? SignUp"}
                 </Link>
               </Grid>

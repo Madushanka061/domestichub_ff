@@ -12,6 +12,11 @@ import { useState } from "react";
 
 const Drawercomp = ({ links }) => {
   const [open, setopen] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   return (
     <>
       <Drawer
